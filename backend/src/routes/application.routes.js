@@ -15,7 +15,7 @@ const router= Router()
 router.route("/apply-application/:id").post(verifyJWT,upload.single("resume"),applyJob)
 router.route("/applied-job").get(verifyJWT,appliedJObListByIdAndResponse)
 router.route("/response-list-application").get(verifyJWT,isAdmin,jobWithApplicationResponseByAdmin)
-router.route("/give-respone-application").post(verifyJWT,isAdmin,giveResponseStatusByAdmin)
+router.route("/give-respone-application/:id").post(verifyJWT,isAdmin,giveResponseStatusByAdmin)
 
 
 export default router

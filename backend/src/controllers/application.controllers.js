@@ -4,6 +4,7 @@
 import { Application } from "../models/application.model.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import { Job } from "../models/job.model.js";
+import mongoose from "mongoose"
 
 //user
 const applyJob= asyncHandler(async (req,res) => {
@@ -57,7 +58,7 @@ const appliedJObListByIdAndResponse =asyncHandler(async (req,res) =>{
    
    const application= await Application.find({userId})
    
-   if(!application.length == 0){
+   if(application.length == 0){
     throw new ApiError(400,"user not apply job or application not found")
    }
 
@@ -71,7 +72,7 @@ const jobWithApplicationResponseByAdmin= asyncHandler(async (req,res) =>{
 
         {
             $match:{
-                createdBy: new mongoose.Types.objectId(req.user.id)
+                createdBy: new mongoose.Types.ObjectId(req.user.id)
             }
         },
 
@@ -91,12 +92,14 @@ const jobWithApplicationResponseByAdmin= asyncHandler(async (req,res) =>{
         }
     ])
 
+    return res.status(202).json(new ApiResponse(202,jobWithApplication,"geetin application-list fetched sucessfully"))
+
 })
 
 //admin
 const giveResponseStatusByAdmin=asyncHandler(async(req,res) =>{
        const applicationId=req.params.id
-       const {status}=req.job
+       const {status}=req.body
 
        if(!status){
         throw new ApiError(404,"plese give any status")
@@ -105,10 +108,10 @@ const giveResponseStatusByAdmin=asyncHandler(async(req,res) =>{
     const application= await Application.findById(applicationId)
 
     application.status=status;
-    const application1=await application.save()
-    console.log(application1);
+    const updatedApplication=await application.save()
+    // console.log(application);
     
-  return res.status(400).json( new ApiResponse(400,application,"admin give response sucessfully"))
+  return res.status(400).json( new ApiResponse(400,updatedApplication,"admin give response sucessfully"))
 })
 
 
