@@ -66,9 +66,9 @@ const appliedJObListByIdAndResponse =asyncHandler(async (req,res) =>{
 })
 
 //admin
-const jobWithApplicationResponseByAdmin= asyncHandler(async (req,res) =>{
-   
-    const jobWithApplication= await Job.aggregate([
+const jobWithApplicationResponseByAdmin = asyncHandler(async (req,res) => {
+
+    const jobWithApplication = await Job.aggregate([
 
         {
             $match:{
@@ -76,24 +76,72 @@ const jobWithApplicationResponseByAdmin= asyncHandler(async (req,res) =>{
             }
         },
 
+        //  Lookup with pipeline
         {
             $lookup:{
-                from:"applications",
-                localField:"_id",
-                foreignField:"jobId",
-                as:"applications"
+                from: "applications",
+                let: { jobId: "$_id" },   // pass job _id  //let jobId=job._id
+                pipeline: [
+
+                    // match applications for this job
+                    {
+                        $match:{
+                            $expr:{ $eq:["$jobId","$$jobId"] }   //[application.jobId==job._id]
+                        }
+                    },
+
+                    //  nested lookup for user
+                    {
+                        $lookup:{
+                            from:"users",
+                            localField:"userId",
+                            foreignField:"_id",
+                            as:"userDetails"
+                        }
+                    },
+
+                    // convert userDetails array → object
+                    {
+                        $unwind:"$userDetails"
+                    },
+
+                    // optional: select fields
+                    {
+                        $project:{
+                            status:1,
+                            resume:1,
+                            "userDetails.fullName":1,
+                            "userDetails.email":1
+                        }
+                    }
+
+                ],
+                as:"applicationsList"
             }
         },
 
+        // count applications
         {
             $addFields:{
-                totalApplications:{ $size: "$applications"}
+                totalApplications:{ $size:"$applicationsList" }
+            }
+        },
+
+        // optional clean response
+        {
+            $project:{
+                title:1,
+                companyName:1,
+                totalApplications:1,
+                applicationsList:1
             }
         }
+
     ])
 
-    return res.status(202).json(new ApiResponse(202,jobWithApplication,"geetin application-list fetched sucessfully"))
-
+    return res.status(200).json(
+        new ApiResponse(200,jobWithApplication,"application list fetched successfully")
+    )
 })
 
 //admin

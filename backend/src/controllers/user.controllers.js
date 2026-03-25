@@ -9,7 +9,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js"
 
 const generateAcessTokenAndRefreshToken = async (user) =>{
 
-    console.log("user=",user);
+    
     
 
     const accessToken= jwt.sign({
