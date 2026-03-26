@@ -151,7 +151,6 @@ const registerJob=asyncHandler(async (req,res) =>{
  })
   
  //admin
-
  const deleteJob=asyncHandler(async (req,res) =>{
     const jobId=req.params.id
 
