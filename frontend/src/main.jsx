@@ -5,10 +5,12 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import Jobs from './pages/Jobs.jsx'
-import Applications from './pages/Applications.jsx'
 import About from './pages/About.jsx'
 import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
+import Profile from './pages/Profile.jsx'
+import {Provider} from 'react-redux'
+import {store} from "./app/store.js"
 
 const router=createBrowserRouter([
   {
@@ -24,10 +26,6 @@ const router=createBrowserRouter([
         element:<Jobs/>
       },
       {
-        path:"/applications",
-        element:<Applications/>
-      },
-      {
         path:"/about",
         element:<About/>
       },
@@ -38,6 +36,10 @@ const router=createBrowserRouter([
       {
         path:"/signup",
         element:<Signup/>
+      },
+      {
+        path:"/profile",
+        element:<Profile/>
       }
     ]
   }
@@ -45,6 +47,8 @@ const router=createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <Provider store={store}>
     <RouterProvider router={router}/>
+    </Provider>
   </StrictMode>,
 )
