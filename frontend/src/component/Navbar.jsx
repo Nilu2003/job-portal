@@ -15,7 +15,7 @@ const Navbar = () => {
       <div className='text-3xl font-bold'>Logo</div>
       <ul className=' hidden md:flex flex-row gap-4 font-semibold'>
         {(!isLogged) &&
-          <div>
+          <div className=' hidden md:flex flex-row gap-4 font-semibold'>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/jobs">Jobs</Link></li>
             <li><Link to="/about">About</Link></li>
@@ -23,7 +23,7 @@ const Navbar = () => {
         }
 
         {(role == "user") &&
-          <div>
+          <div className=' hidden md:flex flex-row gap-4 font-semibold'>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/jobs">Jobs</Link></li>
             <li><Link to="/about">About</Link></li>
@@ -31,7 +31,7 @@ const Navbar = () => {
         }
 
         {(role == "admin") &&
-          <div>
+          <div className=' hidden md:flex flex-row gap-4 font-semibold'>
             <li><Link to="/admin/dashboard">Dashboard</Link></li>
             <li><Link to="/admin/application">applications</Link></li>
           </div>

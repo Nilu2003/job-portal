@@ -14,7 +14,7 @@ const generateAcessTokenAndRefreshToken = async (user) =>{
 
     const accessToken= jwt.sign({
         id:user._id,
-        profileType:user.profileType
+        role:user.role
     },
     process.env.ACESS_TOKEN_KEY,
    { expiresIn:process.env.ACESS_TOKEN_EXPIRY}
@@ -42,17 +42,19 @@ return {accessToken,refreshToken}
 
 const registerUser=asyncHandler(async(req,res) =>{
 
-    const {username,password,email,phoneNumber,fullName,profileType} =req.body
+    const {username,password,email,phoneNumber,fullName,role} =req.body
+    console.log(req.body);
+    
 
    if ([username,password,email,phoneNumber,fullName].some((field) => field.trim()=="")){
     throw new ApiError(401,"something are missing")
    }
 
-   if(!profileType){
+   if(!role){
     throw new ApiError(401,"profile type missing are missing")
    }
 
-   console.log("Ptypes=",profileType);
+   console.log("Ptypes=",role);
    
 
     const existedUser=await User.findOne({
@@ -70,7 +72,7 @@ const registerUser=asyncHandler(async(req,res) =>{
         email,
         phoneNumber,
         fullName,
-        profileType: profileType
+        role: role
          
         
     })
@@ -86,7 +88,7 @@ const registerUser=asyncHandler(async(req,res) =>{
 
 
 const LoginUser=asyncHandler(async (req,res) => {
-     const {username,email,password,profileType}=req.body;
+     const {username,email,password,role}=req.body;
 
      if(!username && !email){
         throw new ApiError(401,"please enter the username or email")
@@ -94,7 +96,7 @@ const LoginUser=asyncHandler(async (req,res) => {
      if(!password){
         throw new ApiError(401,"please enter password")
      }
-     if(!profileType){
+     if(!role){
         throw new ApiError(401,"plese enter profile type")
      }
 
@@ -107,7 +109,7 @@ const LoginUser=asyncHandler(async (req,res) => {
         throw new ApiError(404,"user not found")
      }
             
-     if(profileType != user.profileType){
+     if(role != user.role){
         throw new ApiError(401,"plese enter correct Profile type")
      }
      

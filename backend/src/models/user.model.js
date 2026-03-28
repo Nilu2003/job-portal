@@ -35,7 +35,7 @@ const userSchema= new Schema({
    avatar:{
     type:String,
    },
-   profileType:{
+   role:{
     type:String,
     enum:["user","admin"]
    },

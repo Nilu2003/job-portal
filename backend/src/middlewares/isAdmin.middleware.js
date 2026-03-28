@@ -2,11 +2,11 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const isAdmin=asyncHandler(async(req,res,next)=>{
-    const profileType=req.user.profileType
-    // console.log("type=",profileType);
+    const role=req.user.role
+    // console.log("type=",role);
     
 
-    if(profileType != "admin"){
+    if(role != "admin"){
         throw new ApiError(401,"Acess denided")
     }
 

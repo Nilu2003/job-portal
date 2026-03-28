@@ -72,7 +72,7 @@ const registerJob=asyncHandler(async (req,res) =>{
     }
      
     if(type){
-        query.profileType=type
+        query.role=type
     }
 
     const limit=6

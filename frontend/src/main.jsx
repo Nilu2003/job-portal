@@ -11,6 +11,9 @@ import Signup from './pages/Signup.jsx'
 import Profile from './pages/Profile.jsx'
 import {Provider} from 'react-redux'
 import {store} from "./app/store.js"
+import ProtectRoute from './component/ProtectRoute.jsx'
+import AdminDashboard from './pages/AdminDashboard.jsx'
+import AdminApplications from './pages/AdminApplications.jsx'
 
 const router=createBrowserRouter([
   {
@@ -39,7 +42,27 @@ const router=createBrowserRouter([
       },
       {
         path:"/profile",
-        element:<Profile/>
+        element:(
+          <ProtectRoute>
+            <Profile/>
+          </ProtectRoute>
+        )
+      },
+      {
+        path:"/admin/dashboard",
+        element:(
+          <ProtectRoute>
+            <AdminDashboard/>
+          </ProtectRoute>
+        )
+      },
+      {
+        path:"/admin/applications",
+        element:(
+          <ProtectRoute>
+            <AdminApplications/>
+          </ProtectRoute>
+        )
       }
     ]
   }
