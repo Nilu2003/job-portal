@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import API from "../api/api.js"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { loginSuccess, logout } from '../features/auth/authSlice'
 
@@ -10,7 +10,7 @@ const Login = () => {
   const [fromData,setFromData]=useState({
     username:"",
     password:"",
-    role:""
+    role:"" 
   })
 
   const handleChange = (e) =>{
@@ -22,12 +22,18 @@ const Login = () => {
 
   const dispatch= useDispatch()
   const navigate=useNavigate()
+
   const handleSubmit = async () =>{
     try {
       const res= await API.post("/users/login", fromData);
       // console.log(res);
       dispatch(loginSuccess(res.data.data))
-      navigate("/")
+      const useRole=res.data.data.role
+      if(useRole=="admin"){
+        navigate("/admin/dashboard")
+      }else{
+        navigate("/")
+      }
       
     } catch (error) {
       console.log("something wrong while login",error);

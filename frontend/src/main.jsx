@@ -44,31 +44,28 @@ const router=createBrowserRouter([
       {
         path:"/profile",
         element:(
-          <ProtectRoute>
+
             <Profile/>
-          </ProtectRoute>
+
         )
       },
       {
         path:"/admin/dashboard",
-        element:(
-          <ProtectRoute>
-            <AdminDashboard/>
-          </ProtectRoute>
-        )
+        element:(<AdminDashboard/>),
+
       },
       {
         path:"/admin/applications",
         element:(
-          <ProtectRoute>
+
             <AdminApplications/>
-          </ProtectRoute>
+
         )
       },
       {
         path:"/job/:id",
         element:<JobDetails/>
-      }
+      },
     ]
   }
 ])

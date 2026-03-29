@@ -1,9 +1,17 @@
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import React from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from 'react'
 
 const ProtectRoute = ({children,roleRequired}) => {
+     const dispatch=useDispatch() 
+
+ 
+
     const {isLogged,role}=useSelector((state) => state.auth)
+
+    // console.log("login-",isLogged);
+
+    
     if(!isLogged){
         return <Navigate to="/login"/>;
        }
