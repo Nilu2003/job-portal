@@ -14,6 +14,7 @@ import {store} from "./app/store.js"
 import ProtectRoute from './component/ProtectRoute.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
 import AdminApplications from './pages/AdminApplications.jsx'
+import JobDetails from './pages/JobDetails.jsx'
 
 const router=createBrowserRouter([
   {
@@ -63,6 +64,10 @@ const router=createBrowserRouter([
             <AdminApplications/>
           </ProtectRoute>
         )
+      },
+      {
+        path:"/job/:id",
+        element:<JobDetails/>
       }
     ]
   }

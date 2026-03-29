@@ -7,8 +7,8 @@ import { getAllJob, registerJob ,getJobById,updateJob,createdJobList ,deleteJob}
 const router=Router()
 
 router.route("/registerjob").post(verifyJWT,isAdmin,upload.single('logo'),registerJob)
-router.route("/getalljob").get(verifyJWT,getAllJob)
-router.route("/getjob/:id").get(verifyJWT,getJobById)
+router.route("/getalljob").get(getAllJob)
+router.route("/getjob/:id").get(getJobById)
 router.route("/updatejob/:id").patch(verifyJWT,isAdmin,updateJob)
 router.route("/createdjoblist").get(verifyJWT,isAdmin,createdJobList)
 router.route("/deletedjob/:id").delete(verifyJWT,isAdmin,deleteJob)

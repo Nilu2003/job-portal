@@ -1,7 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import JobCard from '../component/JobCard'
+import API from '../api/api'
 
 const Jobs = () => {
+  const [jobs,setJobs]= useState([])
+  
+    useEffect(()=>{
+      const fetchJob= async () =>{
+         try {
+          const res= await API.get("/jobs/getalljob")
+          setJobs(res.data.data)
+         } catch (error) {
+          console.log("something error whlie job carrds-job route",error);  
+         }
+      }
+
+      fetchJob()
+    },[])
+
   return (
     <div className="flex gap-6 p-6  min-h-screen">
 
@@ -45,12 +61,12 @@ const Jobs = () => {
 
       {/* RIGHT JOB LIST */}
       <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-10">
-        <JobCard />
-        <JobCard />
-        <JobCard />
-        <JobCard />
-        <JobCard />
-        <JobCard />
+        {
+          jobs.map((job) => (
+            <JobCard key={job._id} job={job} />
+          ))
+        }
+        
       </div>
 
     </div>

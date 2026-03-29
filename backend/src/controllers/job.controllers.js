@@ -8,15 +8,12 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 //admin
 const registerJob=asyncHandler(async (req,res) =>{
-    const{title,description,companyName,experienceYear,Jobtype,location}=req.body
+    const{title,description,companyName,experienceYear,Jobtype,location,position,salary}=req.body
 
-    if([title,description,companyName,Jobtype,location].some((field)=>field.trim()=="")){
+    if([title,description,companyName,Jobtype,location,position,experienceYear,salary].some((field)=>field.trim()=="")){
         throw new ApiError(400,"please enter all tittle,description,companyName")
     }
-    if(!experienceYear){
-        throw new ApiError(400,"user plese enter experiance year")
-    }
-
+    
     // console.log(req.file);
  
     if(!req.file){
@@ -47,7 +44,9 @@ const registerJob=asyncHandler(async (req,res) =>{
         logo:logo.url,
         createdBy:req.user.id,
         Jobtype,
-        location
+        location,
+        position,
+        salary,
     })
        
     

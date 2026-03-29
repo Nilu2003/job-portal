@@ -7,27 +7,32 @@ import API from "./api/api.js"
 import { loginSuccess, logout } from "./features/auth/authSlice.js"
 
 
-const dispatch= useDispatch()
 
-useEffect(() => {
+function App() {
+   
+const dispatch=useDispatch() 
+
+  useEffect(() => {
   const fetchUser= async () => {
     try {
       const res= await API.get("/users/getprofile")
-      console.log(res);
+      // console.log(res.data.data);
       
-      dispatch(loginSuccess())
+      dispatch(loginSuccess(res.data.data))
     } catch (error) {
-      dispatch(logout)
+      // console.log(error.response.status);
+      if (error.response?.status === 401) {
+        dispatch(logout())  
+      } else {
+        console.log("error-",error)
+      }
     }
   }
 
   fetchUser()
-},[])
+},[dispatch])
 
 
-
-function App() {
-  
 
   return (
     <>

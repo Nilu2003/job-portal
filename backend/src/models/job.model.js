@@ -19,7 +19,7 @@ const jobSchema=new Schema({
         required:true,
     },
     experienceYear:{
-        type:Number,
+        type:String,
         required:true
         
     },
@@ -33,8 +33,15 @@ const jobSchema=new Schema({
     },
     location:{
         type:String,
-        index:true
+        required:true
+    },
+    position:{
+        type:String,
+    },
+    salary:{
+        type:String
     }
+    
 
 
 

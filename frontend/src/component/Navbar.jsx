@@ -1,41 +1,44 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import profile from "../assets/logo.png"
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../features/auth/authSlice.js'
+import API from '../api/api.js'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const { isLogged, user, role } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const [showProfile, setShowProfile] = useState(false)
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    try {
+      const res = await API.post("/users/logout");
+      dispatch(logout())
+      navigate('/')
+    } catch (error) {
+      console.log("something error while logout", error);
+
+    }
+  }
 
   return (
     <div className='flex flex-row justify-around mt-3'>
       <div className='text-3xl font-bold'>Logo</div>
-      <ul className=' hidden md:flex flex-row gap-4 font-semibold'>
-        {(!isLogged) &&
-          <div className=' hidden md:flex flex-row gap-4 font-semibold'>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/jobs">Jobs</Link></li>
-            <li><Link to="/about">About</Link></li>
-          </div>
-        }
-
-        {(role == "user") &&
-          <div className=' hidden md:flex flex-row gap-4 font-semibold'>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/jobs">Jobs</Link></li>
-            <li><Link to="/about">About</Link></li>
-          </div>
-        }
-
-        {(role == "admin") &&
-          <div className=' hidden md:flex flex-row gap-4 font-semibold'>
+      <ul className='hidden md:flex flex-row gap-4 font-semibold'>
+        {role === "admin" ? (
+          <>
             <li><Link to="/admin/dashboard">Dashboard</Link></li>
-            <li><Link to="/admin/application">applications</Link></li>
-          </div>
-        }
+            <li><Link to="/admin/applications">Applications</Link></li>
+          </>
+        ) : (
+          <>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/jobs">Jobs</Link></li>
+            <li><Link to="/about">About</Link></li>
+          </>
+        )}
       </ul>
       <div className='hidden md:flex gap-4'>
         {isLogged ?
@@ -53,7 +56,7 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     setShowProfile(false);
-                    dispatch(logout())
+                    handleLogout()
                   }}
                   className="text-left text-red-500"
                 >
@@ -96,9 +99,18 @@ const Navbar = () => {
             ✖
           </button>
           <ul className='flex flex-col gap-4 mt-10 font-semibold'>
+            {role==="admin"?
+             <>
+               <li><Link to="/admin/dashboard" onClick={() => setIsOpen(false)}>Dashboard</Link></li>
+               <li><Link to="/admin/applications" onClick={() => setIsOpen(false)}>Applications</Link></li>
+             </>
+             :
+             <>
             <li><Link to="/" onClick={() => setIsOpen(false)}>Home</Link></li>
             <li><Link to="/jobs" onClick={() => setIsOpen(false)}>Jobs</Link></li>
             <li><Link to="/about" onClick={() => setIsOpen(false)}>About</Link></li>
+             </>  
+          }
           </ul>
           <div >
             {isLogged ?
@@ -106,7 +118,7 @@ const Navbar = () => {
                 <p><Link to="/profile" onClick={() => setIsOpen(false)}>Profile</Link></p>
                 <button
                   onClick={() => {
-                    dispatch(logout())
+                    handleLogout();
                     setIsOpen(false);
                   }}
                   className='text-left text-red-500 '>Logout</button>
