@@ -16,7 +16,7 @@ const jobSlice= createSlice({
             state.jobs.push(action.payload)
         },
         deleteJob:(state,action) =>{
-            state.jobs=state.jobs.filter((job)=> job._id !== action.payloadload )
+            state.jobs=state.jobs.filter((job)=> job._id !== action.payload )
         },
         updatejob:(state,action) =>{
             state.jobs= state.jobs.map((job) => job._id == action.payload._id ? action.payload : job)

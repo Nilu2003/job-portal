@@ -10,7 +10,7 @@ const Home = () => {
       const fetchJobs= async () =>{
         try {
           const res= await API.get("/jobs/getalljob")
-          // console.log(res);
+          console.log(res);
           
           setJobs(res.data.data)
         } catch (error) {
@@ -21,6 +21,8 @@ const Home = () => {
 
       fetchJobs()
      },[])
+
+     if(jobs.length===0) return <p>Loading.......</p>
 
   return (
     <div className='flex flex-col justify-center items-center '>

@@ -12,7 +12,7 @@ const AdminDashboard = () => {
   useEffect(()=>{
     const fetchJobs = async ()=>{
       try {
-        const res= await API.get("jobs/createdjoblist")
+        const res= await API.get("/jobs/createdjoblist")
         dispatch(setJobs(res.data.data))
         
       } catch (error) {
@@ -24,12 +24,6 @@ const AdminDashboard = () => {
     fetchJobs()
   },[])
 
-
-  const handleDeleteJob = (id) => {
-  setJobs((prev) => prev.filter((job) => job._id !== id));
-};
- 
-  
 
   return (
     <div>
@@ -44,7 +38,7 @@ const AdminDashboard = () => {
         ):(
           <div className='grid grid-cols-2 md:grid-cols-3 gap-3 m-20'>
             {jobs.map((job) =>(
-               <JobCard key={job._id} job={job}  onDelete={handleDeleteJob}/>
+               <JobCard key={job._id} job={job} />
             ))}
           </div>
         )}

@@ -26,7 +26,7 @@ const Login = () => {
   const handleSubmit = async () =>{
     try {
       const res= await API.post("/users/login", fromData);
-      // console.log(res);
+      console.log(res);
       dispatch(loginSuccess(res.data.data))
       const useRole=res.data.data.role
       if(useRole=="admin"){
