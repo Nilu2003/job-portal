@@ -56,7 +56,34 @@ const appliedJObListByIdAndResponse = asyncHandler(async (req, res) => {
         throw new ApiError(400, "userid not found in Jwt")
     }
 
-    const application = await Application.find({ userId })
+    const application = await Application.aggregate([
+        {
+            $match:{
+                userId:new mongoose.Types.ObjectId(userId)
+            }
+        },
+        {
+            $lookup:{
+                from:"jobs",
+                localField:"jobId",
+                foreignField:"_id",
+                as:"jobDetails"
+            }
+        },
+        {
+            $unwind: "$jobDetails"
+        },
+        {    
+            $project:{
+            _id:1,
+            title:"$jobDetails.title",
+            companyName:"$jobDetails.companyName",
+            status:1,
+            createdAt:1,
+            }
+        }
+        
+    ])
 
     if (application.length == 0) {
         throw new ApiError(400, "user not apply job or application not found")

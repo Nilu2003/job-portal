@@ -30,7 +30,6 @@ const Navbar = () => {
         {role === "admin" ? (
           <>
             <li><Link to="/admin/dashboard">Dashboard</Link></li>
-            <li><Link to="/admin/applications">Applications</Link></li>
           </>
         ) : (
           <>

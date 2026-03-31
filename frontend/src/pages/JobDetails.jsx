@@ -164,7 +164,7 @@ const JobDetails = () => {
                 </div>
                 <div className='flex flex-row'>
                     <p className='font-semibold'>Posted Date:</p>
-                    <p className='ml-2'> {job.createdAt.toLocaleDateString()}</p>
+                    <p className='ml-2'> {job.createdAt.toLocaleDateString}</p>
                 </div>
             </div>
         </div>

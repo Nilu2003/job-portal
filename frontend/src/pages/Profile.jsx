@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import API from "../api/api";
+import EditProfileModal from "../component/EditProfileModal"
+import { useSelector } from "react-redux";
+import avatar from "../assets/blank-profile-picture.webp"
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const { role } = useSelector((state) => state.auth);
 
   // fetch profile
   useEffect(() => {
@@ -14,7 +18,7 @@ const Profile = () => {
     };
 
     const fetchAppliedJobs = async () => {
-      const res = await API.get("/applications/my-applications");
+      const res = await API.get("/applications/applied-job");
       setAppliedJobs(res.data.data);
     };
 
@@ -32,7 +36,7 @@ const Profile = () => {
 
         <div className="flex gap-5">
           <img
-            src={user.profileImage || "https://via.placeholder.com/80"}
+            src={user.avatar || avatar}
             className="w-20 h-20 rounded-full"
           />
 
@@ -45,7 +49,7 @@ const Profile = () => {
 
             {/* skills */}
             <div className="mt-2 flex gap-2 flex-wrap">
-              {user.skills?.map((skill, i) => (
+              {user.skill?.map((skill, i) => (
                 <span key={i} className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
                   {skill}
                 </span>
@@ -71,42 +75,44 @@ const Profile = () => {
       </div>
 
       {/* 🔥 APPLIED JOBS */}
-      <div className="mt-8">
-        <h2 className="text-lg font-semibold mb-3">Applied Jobs</h2>
+      {role == "user" &&
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold mb-3">Applied Jobs</h2>
 
-        <table className="w-full border shadow">
-          <thead className="bg-gray-200">
-            <tr>
-              <th>Date</th>
-              <th>Job Role</th>
-              <th>Company</th>
-              <th>Status</th>
-            </tr>
-          </thead>
+          <table className="w-full  shadow">
+            <thead className="bg-gray-200">
+              <tr>
+                <th>Date</th>
+                <th>Job Role</th>
+                <th>Company</th>
+                <th>Status</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {appliedJobs.map((job) => (
-              <tr key={job._id} className="text-center border-t">
-                <td>{new Date(job.createdAt).toLocaleDateString()}</td>
-                <td>{job.jobId?.title}</td>
-                <td>{job.jobId?.companyName}</td>
+            <tbody>
+              {appliedJobs.map((job) => (
+                <tr key={job._id} className="text-center">
+                  <td   >{new Date(job.createdAt).toLocaleDateString()}</td>
+                  <td  >{job.title}</td>
+                  <td  >{job.companyName}</td>
 
-                {/* ✅ STATUS BADGE */}
-                <td>
-                  <span className={`px-3 py-1 rounded text-white text-sm
+                  {/* ✅ STATUS BADGE */}
+                  <td >
+                    <span className={`py-1 px-1 rounded text-white text-[10px] 
                     ${job.status === "accepted" && "bg-green-500"}
                     ${job.status === "rejected" && "bg-red-500"}
                     ${job.status === "pending" && "bg-gray-500"}
                   `}>
-                    {job.status}
-                  </span>
-                </td>
+                      {job.status}
+                    </span>
+                  </td>
 
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      }
 
       {/* 🔥 EDIT MODAL */}
       {showModal && (

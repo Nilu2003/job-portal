@@ -43,7 +43,7 @@ return {accessToken,refreshToken}
 const registerUser=asyncHandler(async(req,res) =>{
 
     const {username,password,email,phoneNumber,fullName,role} =req.body
-    console.log(req.body);
+    // console.log(req.body);
     
 
    if ([username,password,email,phoneNumber,fullName].some((field) => field.trim()=="")){
@@ -54,7 +54,7 @@ const registerUser=asyncHandler(async(req,res) =>{
     throw new ApiError(401,"profile type missing are missing")
    }
 
-   console.log("Ptypes=",role);
+//    console.log("Ptypes=",role);
    
 
     const existedUser=await User.findOne({
@@ -175,27 +175,34 @@ const getProfile= asyncHandler(async (req,res) => {
 })
  
 const updateProfile=asyncHandler(async(req,res)=>{
-    const{ email,password,fullName,phoneNumber,skill}=req.body
-
-     if(!email &&   !password && !fullName && !phoneNumber && !skill){
+    const{ email,password,fullName,phoneNumber,skill,bio}=req.body
+      console.log(req.body);
+      
+     if(!email &&   !password && !fullName && !phoneNumber && !skill && !bio ){
         throw new ApiError(400,"plese enter email,password,fullName,phoneNumber or skill")
      }
+
        
        let skillArray;
        if(skill){
         skillArray=skill.split(",")
        }
+      
 
-       
+    let updatedPassword;
+    if (password) {
+        updatedPassword = await bcrypt.hash(password, 10)
+    }
 
     const user=await User.findByIdAndUpdate(
         req.user.id,
         {
             email,
-            password,
             fullName,
             phoneNumber,
-            skill:skillArray
+            skill:skillArray,
+            bio,
+            ...(updatedPassword && { password: updatedPassword })
         },{
             returnDocument:"after"
         }
@@ -221,8 +228,7 @@ const uploadAvatar= asyncHandler(async(req,res) =>{
         throw new ApiError(401,"avatar url not found")
      }
 
-
-
+     
      await User.findByIdAndUpdate(
         req.user.id,
         {

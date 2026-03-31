@@ -41,6 +41,12 @@ const userSchema= new Schema({
    },
    refreshToken:{
     type:String,
+   },
+   bio:{
+    type:String,
+   },
+   resume:{
+    type:String,
    } 
 },{
     timestamps:true
