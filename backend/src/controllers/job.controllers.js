@@ -9,8 +9,10 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 //admin
 const registerJob=asyncHandler(async (req,res) =>{
     const{title,description,companyName,experienceYear,Jobtype,location,position,salary}=req.body
+    // console.log(req.body);
+    
 
-    if([title,description,companyName,Jobtype,location,position,experienceYear,salary].some((field)=>field.trim()=="")){
+    if([title,description,companyName,Jobtype,location,position,experienceYear,salary].some((field)=>!field || field.trim() === "")){
         throw new ApiError(400,"please enter all tittle,description,companyName")
     }
     

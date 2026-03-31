@@ -5,7 +5,7 @@ import {isAdmin} from "../middlewares/isAdmin.middleware.js"
 
 import {applyJob,
     appliedJObListByIdAndResponse,
-    jobWithApplicationResponseByAdmin,
+    jobIdWithApplicationResponseByAdmin,
     giveResponseStatusByAdmin
 } from "../controllers/application.controllers.js"
 
@@ -14,7 +14,7 @@ const router= Router()
 
 router.route("/apply-application/:id").post(verifyJWT,upload.single("resume"),applyJob)
 router.route("/applied-job").get(verifyJWT,appliedJObListByIdAndResponse)
-router.route("/response-list-application").get(verifyJWT,isAdmin,jobWithApplicationResponseByAdmin)
+router.route("/response-list-application/:id").get(verifyJWT,isAdmin,jobIdWithApplicationResponseByAdmin)
 router.route("/give-respone-application/:id").post(verifyJWT,isAdmin,giveResponseStatusByAdmin)
 
 

@@ -41,8 +41,11 @@ const JobCard = ({ job }) => {
 
             </div>
             <div className='flex flex-row gap-2 ml-2'>
-                {role == "user" &&
-                    <button className='border rounded-sm text-[10px] md:text-[12px] lg:text-[14px] font-semibold'
+                {role == "admin" ?
+                    <button className='border rounded-sm w-10 text-[10px] md:text-[12px] lg:text-[14px] font-semibold'
+                        onClick={() => navigate(`/admin/edit-job/${job._id}`)}
+                    >Edit</button>
+                    : <button className='border rounded-sm text-[10px] md:text-[12px] lg:text-[14px] font-semibold'
                         onClick={() => navigate(`job/${job._id}`)}
                     >Details</button>
                 }
@@ -62,6 +65,13 @@ const JobCard = ({ job }) => {
                         }
                     >Apply →</button>)
                 }
+
+                {role == "admin" &&
+                (<button className='border rounded-sm bg-blue-500 text-[10px] md:text-[12px] lg:text-[14px] font-semibold'
+                        onClick={() =>
+                            navigate(`/admin/applicant/${job._id}`)
+                        }
+                    >Applicant View</button>) }
             </div>
         </div>
     )

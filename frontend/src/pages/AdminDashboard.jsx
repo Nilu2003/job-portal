@@ -3,12 +3,13 @@ import API from '../api/api'
 import JobCard from '../component/JobCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { setJobs } from '../features/jobs/jobSlice'
+import { useNavigate } from 'react-router-dom'
 
 const AdminDashboard = () => {
    
   const {jobs} =useSelector((state) => state.jobs)
   const dispatch= useDispatch()
-   
+  const navigate =useNavigate() 
   useEffect(()=>{
     const fetchJobs = async ()=>{
       try {
@@ -29,7 +30,10 @@ const AdminDashboard = () => {
     <div>
       <div className='flex flex-row justify-between ml-8 mt-6 mr-9'>
         <div className='text-[30px] text-shadow-gray-600 font-bold'>Jobs</div>
-        <div><button className='border border-blue-600 bg-blue-500 rounded-md '>Add Jobs</button></div>
+        <div><button 
+        className='border border-blue-600 bg-blue-500 rounded-md '
+          onClick={()=> navigate("/admin/addjob")}
+        >Add Jobs</button></div>
       </div>
       <hr className='ml-6 mr-9 text-shadow-gray-600'/>
       <div>

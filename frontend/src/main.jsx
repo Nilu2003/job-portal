@@ -15,6 +15,9 @@ import ProtectRoute from './component/ProtectRoute.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
 import AdminApplications from './pages/AdminApplications.jsx'
 import JobDetails from './pages/JobDetails.jsx'
+import AdminAddJob from './pages/AdminAddJob.jsx'
+import AdminEditJob from './pages/AdminEditJob.jsx'
+import AdminApplicant from './pages/AdminApplicant.jsx'
 
 const router=createBrowserRouter([
   {
@@ -66,6 +69,19 @@ const router=createBrowserRouter([
         path:"/job/:id",
         element:<JobDetails/>
       },
+      {
+        path:"/admin/addjob",
+        element:<AdminAddJob/>
+
+      },
+      {
+        path:"/admin/edit-job/:id",
+        element:<AdminEditJob/>
+      },
+      {
+        path:"/admin/applicant/:id",
+        element:<AdminApplicant/>
+      }
     ]
   }
 ])

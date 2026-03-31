@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const AdminApplications = () => {
+   
+  
+
+  // useEffect((),[])
+
+
   return (
     <div>AdminApplications</div>
   )
