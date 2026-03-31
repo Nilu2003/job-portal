@@ -147,7 +147,7 @@ const LoginUser=asyncHandler(async (req,res) => {
 
 
 const logoutUser=asyncHandler(async(req,res) =>{
-    console.log(req.user);
+    // console.log(req.user);
     
     
     
@@ -176,7 +176,7 @@ const getProfile= asyncHandler(async (req,res) => {
  
 const updateProfile=asyncHandler(async(req,res)=>{
     const{ email,password,fullName,phoneNumber,skill,bio}=req.body
-      console.log(req.body);
+    //   console.log(req.body);
       
      if(!email &&   !password && !fullName && !phoneNumber && !skill && !bio ){
         throw new ApiError(400,"plese enter email,password,fullName,phoneNumber or skill")

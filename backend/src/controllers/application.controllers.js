@@ -25,7 +25,7 @@ const applyJob = asyncHandler(async (req, res) => {
     }
 
     const resume = await uploadOnCloudinary(resumePath)
-    console.log(resume);
+    // console.log(resume);
 
 
     if (!resume?.url) {

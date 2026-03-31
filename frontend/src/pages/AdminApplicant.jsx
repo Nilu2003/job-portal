@@ -13,7 +13,7 @@ const AdminApplicant = () => {
         const fetchApplicants = async () => {
             try {
                 const res = await API.get(`/applications/response-list-application/${id}`);
-                console.log(res);
+                // console.log(res);
 
                 setData(res.data.data);
             } catch (error) {
@@ -31,7 +31,7 @@ const AdminApplicant = () => {
                 status
             });
 
-            console.log("updated", res.data);
+            // console.log("updated", res.data);
 
             // update UI instantly
             setData((prev) =>
