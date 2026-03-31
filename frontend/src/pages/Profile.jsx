@@ -31,7 +31,7 @@ const Profile = () => {
   return (
     <div className="p-6">
 
-      {/* 🔥 PROFILE CARD */}
+      
       <div className="bg-white shadow-xl rounded-xl p-6 flex justify-between items-start">
 
         <div className="flex gap-5">
