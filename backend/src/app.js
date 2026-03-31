@@ -5,7 +5,7 @@ import cors from "cors"
 const app=express()
 
 app.use(cors({
-    origin:"jobportal-p9donko3c-nilu-prustys-projects.vercel.app",
+    origin:"jobportal-red-three.vercel.app",
     credentials: true
 }))
 
