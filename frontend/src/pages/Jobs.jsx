@@ -3,26 +3,49 @@ import JobCard from '../component/JobCard'
 import API from '../api/api'
 
 const Jobs = () => {
-  const [jobs,setJobs]= useState([])
-  
-    useEffect(()=>{
-      const fetchJob= async () =>{
-         try {
-          const res= await API.get("/jobs/getalljob")
-          setJobs(res.data.data)
-         } catch (error) {
-          console.log("something error whlie job carrds-job route",error);  
-         }
-      }
+  const [jobs, setJobs] = useState([])
+  const [loading, setLoading] = useState(false)
 
-      fetchJob()
-    },[])
+  const [filters, setFilters] = useState({
+    location: "",
+    industry: "",
+    salary: ""
+  })
+
+  // Fetch Jobs
+  useEffect(() => {
+    const fetchJob = async () => {
+      try {
+        setLoading(true)
+
+        const res = await API.get("/jobs/getalljob", {
+          params: filters
+        })
+
+        setJobs(res.data.data)
+      } catch (error) {
+        console.log("Error fetching jobs", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchJob()
+  }, [filters])
+
+  // Toggle filter select/unselect
+  const handleFilterChange = (type, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [type]: prev[type] === value ? "" : value
+    }))
+  }
 
   return (
-    <div className="flex gap-6 p-6  min-h-screen">
+    <div className="flex flex-col lg:flex-row gap-6 p-4 min-h-screen">
 
-      {/* LEFT FILTER PANEL */}
-      <div className="w-64 bg-white rounded-xl shadow-md p-5">
+      {/* FILTER PANEL */}
+      <div className="w-full lg:w-64 bg-white rounded-xl shadow-md p-5">
         <h2 className="text-lg font-semibold mb-4">Filter Jobs</h2>
 
         {/* Location */}
@@ -30,7 +53,12 @@ const Jobs = () => {
           <p className="font-medium mb-2">Location</p>
           {["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Chennai", "Mumbai"].map((item, index) => (
             <label key={index} className="flex items-center gap-2 mb-1 cursor-pointer">
-              <input type="radio" name="location" />
+              <input
+                type="radio"
+                name="location"
+                checked={filters.location === item}
+                onChange={() => handleFilterChange("location", item)}
+              />
               <span>{item}</span>
             </label>
           ))}
@@ -41,32 +69,66 @@ const Jobs = () => {
           <p className="font-medium mb-2">Industry</p>
           {["Frontend Developer", "Backend Developer", "Data Science", "FullStack Developer", "Nextjs Developer"].map((item, index) => (
             <label key={index} className="flex items-center gap-2 mb-1 cursor-pointer">
-              <input type="radio" name="industry" />
+              <input
+                type="radio"
+                name="industry"
+                checked={filters.industry === item}
+                onChange={() => handleFilterChange("industry", item)}
+              />
               <span>{item}</span>
             </label>
           ))}
         </div>
 
         {/* Salary */}
-        <div>
+        <div className="mb-6">
           <p className="font-medium mb-2">Salary</p>
           {["0 - 40k", "42k to 1 lakh", "1 lakh to 5 lakh"].map((item, index) => (
             <label key={index} className="flex items-center gap-2 mb-1 cursor-pointer">
-              <input type="radio" name="salary" />
+              <input
+                type="radio"
+                name="salary"
+                checked={filters.salary === item}
+                onChange={() => handleFilterChange("salary", item)}
+              />
               <span>{item}</span>
             </label>
           ))}
         </div>
+
+        {/* Clear Filters */}
+        <button
+          className="w-full bg-red-500 text-white py-2 rounded-lg"
+          onClick={() =>
+            setFilters({ location: "", industry: "", salary: "" })
+          }
+        >
+          Clear Filters
+        </button>
       </div>
 
-      {/* RIGHT JOB LIST */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-10">
-        {
-          jobs.map((job) => (
-            <JobCard key={job._id} job={job} />
-          ))
-        }
-        
+      {/* JOB LIST */}
+      <div className="flex-1">
+
+        {/* Loader */}
+        {loading && (
+          <div className="flex justify-center items-center h-40">
+            <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
+
+        {/* Jobs Grid */}
+        {!loading && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {jobs.length > 0 ? (
+              jobs.map((job) => (
+                <JobCard key={job._id} job={job} />
+              ))
+            ) : (
+              <p>No jobs found</p>
+            )}
+          </div>
+        )}
       </div>
 
     </div>

@@ -8,7 +8,7 @@ import { loginSuccess, logout } from "./features/auth/authSlice.js";
 
 function App() {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true); // ✅ NEW
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -19,7 +19,7 @@ function App() {
           dispatch(loginSuccess(res.data.data));
         }
       } catch (error) {
-        console.log("User not logged in"); // ❗ don't logout aggressively
+        console.log("User not logged in"); 
         dispatch(logout());
       } finally {
         setLoading(false); // ✅ always stop loading
@@ -29,10 +29,13 @@ function App() {
     fetchUser();
   }, [dispatch]);
 
-  // ✅ prevent UI flicker / wrong logout
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+    if (loading) {
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
+}
 
   return (
     <>

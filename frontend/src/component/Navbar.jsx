@@ -25,7 +25,7 @@ const Navbar = () => {
 
   return (
     <div className='flex flex-row justify-around mt-3'>
-      <div className='text-3xl font-bold'>Logo</div>
+      <div className='text-3xl font-bold'>Job-Hunt</div>
       <ul className='hidden md:flex flex-row gap-4 font-semibold'>
         {role === "admin" ? (
           <>
