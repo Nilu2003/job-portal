@@ -45,7 +45,7 @@ const Home = () => {
 
   }, [search, location, jobType, page])
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return  <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
 
   return (
     <div className='flex flex-col justify-center items-center mt-10 md:mt-15 lg:mt-20 gap-3'>
