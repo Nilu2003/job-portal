@@ -40,7 +40,7 @@ const AdminDashboard = () => {
         {jobs.length==0 ? (
           <p>job are not found</p>
         ):(
-          <div className='grid grid-cols-2 md:grid-cols-3 gap-3 m-20'>
+          <div className='grid grid-cols-1  lg:grid-cols-3 gap-3 m-20'>
             {jobs.map((job) =>(
                <JobCard key={job._id} job={job} />
             ))}

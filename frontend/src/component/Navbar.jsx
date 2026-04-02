@@ -101,7 +101,6 @@ const Navbar = () => {
             {role==="admin"?
              <>
                <li><Link to="/admin/dashboard" onClick={() => setIsOpen(false)}>Dashboard</Link></li>
-               <li><Link to="/admin/applications" onClick={() => setIsOpen(false)}>Applications</Link></li>
              </>
              :
              <>

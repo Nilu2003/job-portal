@@ -45,17 +45,17 @@ const Jobs = () => {
   }
 
   return (
-    <div className="flex flex-row lg:flex-row gap-6 p-4 ">
+    <div className="flex flex-row  gap-4 md:gap-6 p-3 md:p-4">
 
       {/* FILTER PANEL */}
-      <div className="w-50 lg:w-64 bg-white rounded-xl shadow-md p-3 md:p-5 ">
-        <h2 className="text-lg font-semibold mb-4">Filter Jobs</h2>
+      <div className=" w-40 md:w-50 lg:w-64 bg-white rounded-xl shadow-md p-3 md:p-5 ">
+        <h2 className="text-lg font-semibold mb-3 md:mb-4">Filter Jobs</h2>
 
         {/* Location */}
         <div className="mb-6">
           <p className="font-medium mb-2">Location</p>
           {["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Chennai", "Mumbai"].map((item, index) => (
-            <label key={index} className="flex items-center gap-2 mb-1 cursor-pointer">
+            <label key={index} className="flex items-center gap-1 md:gap-2 mb-1 cursor-pointer">
               <input
                 type="radio"
                 name="location"
@@ -101,7 +101,7 @@ const Jobs = () => {
 
         {/* Clear Filters */}
         <button
-          className="w-full bg-red-500 text-white py-2 rounded-lg"
+          className="w-37 md:w-47 lg:w-60 bg-red-500 text-white py-2 rounded-lg"
           onClick={() =>
             setFilters({ location: "", keyword: "", salary: "" })
           }
@@ -122,7 +122,7 @@ const Jobs = () => {
 
         {/* Jobs Grid */}
         {!loading && (
-          <div className="grid grid-cols-1 md:grid-col-2  lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1  lg:grid-cols-3  gap-3">
             {jobs.length > 0 ? (
               jobs.map((job) => (
                 <JobCard key={job._id} job={job} />

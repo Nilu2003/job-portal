@@ -47,12 +47,12 @@ const AdminApplicant = () => {
 
 
     return (
-        <div className="p-5">
+        <div className="p-5 flex flex-col  ">
             <h2 className="text-xl font-semibold mb-4">
                 Applicants ({data.length})
             </h2>
 
-            <table className="w-full border shadow-md">
+            <table className="w-full shadow-md">
                 <thead className="bg-gray-200">
                     <tr>
                         <th>Full Name</th>
@@ -66,7 +66,7 @@ const AdminApplicant = () => {
 
                 <tbody>
                     {data.map((app) => (
-                        <tr key={app._id} className="text-center border-t">
+                        <tr key={app._id} className="text-center ">
 
                             <td>{app.fullName}</td>
                             <td>{app.email}</td>
