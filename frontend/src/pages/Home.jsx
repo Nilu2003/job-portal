@@ -18,14 +18,15 @@ const Home = () => {
         try {
           const res = await API.get("/jobs/getalljob", {
             params: {
-              keyword: search,
-              location,
-              type: jobType,
-              page
+              keyword:search,
+
             }
           })
 
           setJobs(res.data.data)
+
+          console.log(res.data.data);
+          
 
         } catch (error) {
           console.log("Error fetching jobs", error)

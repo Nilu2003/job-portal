@@ -58,7 +58,10 @@ const registerJob = asyncHandler(async (req, res) => {
 
 //users
 const getAllJob = asyncHandler(async (req, res) => {
-    const { keyword, location, type, page = 1, company, salary } = req.query;
+    const { keyword, location, type, page = 1,salary } = req.query;
+
+    console.log(req.query);
+    
 
     let query = {};
 
@@ -66,7 +69,7 @@ const getAllJob = asyncHandler(async (req, res) => {
     if (keyword) {
         query.$or = [
             { title: { $regex: keyword, $options: "i" } },
-            { description: { $regex: keyword, $options: "i" } }
+            {companyName : { $regex: keyword, $options: "i" } }
         ];
     }
 
@@ -77,13 +80,9 @@ const getAllJob = asyncHandler(async (req, res) => {
 
     // 💼 Job Type
     if (type) {
-        query.JobType = type;
+        query.Jobtype = type;
     }
 
-    // 🏢 Company
-    if (company) {
-        query.company = { $regex: company, $options: "i" };
-    }
 
     // 💰 Salary filter (IMPORTANT ✅)
     if (salary) {

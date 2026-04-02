@@ -8,7 +8,7 @@ const Jobs = () => {
 
   const [filters, setFilters] = useState({
     location: "",
-    industry: "",
+    keyword: "",
     salary: ""
   })
 
@@ -23,6 +23,9 @@ const Jobs = () => {
         })
 
         setJobs(res.data.data)
+
+        console.log(res.data.data);
+        
       } catch (error) {
         console.log("Error fetching jobs", error)
       } finally {
@@ -42,10 +45,10 @@ const Jobs = () => {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 p-4 min-h-screen">
+    <div className="flex flex-row lg:flex-row gap-6 p-4 ">
 
       {/* FILTER PANEL */}
-      <div className="w-full lg:w-64 bg-white rounded-xl shadow-md p-5">
+      <div className="w-50 lg:w-64 bg-white rounded-xl shadow-md p-3 md:p-5 ">
         <h2 className="text-lg font-semibold mb-4">Filter Jobs</h2>
 
         {/* Location */}
@@ -71,9 +74,9 @@ const Jobs = () => {
             <label key={index} className="flex items-center gap-2 mb-1 cursor-pointer">
               <input
                 type="radio"
-                name="industry"
-                checked={filters.industry === item}
-                onChange={() => handleFilterChange("industry", item)}
+                name="keyword"
+                checked={filters.keyword === item}
+                onChange={() => handleFilterChange("keyword", item)}
               />
               <span>{item}</span>
             </label>
@@ -100,7 +103,7 @@ const Jobs = () => {
         <button
           className="w-full bg-red-500 text-white py-2 rounded-lg"
           onClick={() =>
-            setFilters({ location: "", industry: "", salary: "" })
+            setFilters({ location: "", keyword: "", salary: "" })
           }
         >
           Clear Filters
@@ -119,7 +122,7 @@ const Jobs = () => {
 
         {/* Jobs Grid */}
         {!loading && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2  lg:grid-cols-3 gap-3">
             {jobs.length > 0 ? (
               jobs.map((job) => (
                 <JobCard key={job._id} job={job} />
