@@ -54,6 +54,10 @@ const Login = () => {
       }
 
     } catch (error) {
+      console.log("error--",error);
+      console.log("error response data msg-",error.response.data);
+      
+      
       //  Backend error handling
       if (error.response) {
         setError(error.response.data.message || "Invalid credentials ❌")

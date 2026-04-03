@@ -60,7 +60,7 @@ const registerJob = asyncHandler(async (req, res) => {
 const getAllJob = asyncHandler(async (req, res) => {
     const { keyword, location, type, page = 1,salary } = req.query;
 
-    console.log(req.query);
+    // console.log(req.query);
     
 
     let query = {};

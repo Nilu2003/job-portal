@@ -18,6 +18,15 @@ const applyJob = asyncHandler(async (req, res) => {
         throw new ApiError("JobId not found");
     }
 
+    const existingApplication = await Application.findOne({
+        userId,
+        jobId
+    })
+
+    if (existingApplication) {
+        throw new ApiError(400, "Job already applied")
+    }
+
     const resumePath = req.file.path
 
     if (!resumePath) {
@@ -58,31 +67,31 @@ const appliedJObListByIdAndResponse = asyncHandler(async (req, res) => {
 
     const application = await Application.aggregate([
         {
-            $match:{
-                userId:new mongoose.Types.ObjectId(userId)
+            $match: {
+                userId: new mongoose.Types.ObjectId(userId)
             }
         },
         {
-            $lookup:{
-                from:"jobs",
-                localField:"jobId",
-                foreignField:"_id",
-                as:"jobDetails"
+            $lookup: {
+                from: "jobs",
+                localField: "jobId",
+                foreignField: "_id",
+                as: "jobDetails"
             }
         },
         {
             $unwind: "$jobDetails"
         },
-        {    
-            $project:{
-            _id:1,
-            title:"$jobDetails.title",
-            companyName:"$jobDetails.companyName",
-            status:1,
-            createdAt:1,
+        {
+            $project: {
+                _id: 1,
+                title: "$jobDetails.title",
+                companyName: "$jobDetails.companyName",
+                status: 1,
+                createdAt: 1,
             }
         }
-        
+
     ])
 
     if (application.length == 0) {
@@ -123,14 +132,14 @@ const jobIdWithApplicationResponseByAdmin = asyncHandler(async (req, res) => {
                 phoneNumber: "$userDetails.phoneNumber",
                 resume: 1,
                 status: 1,
-                createdAt:1
+                createdAt: 1
             }
         }
     ])
-        
-        
 
-       res.status(200).json(new ApiResponse(200,application, "sucessfuly fethched Applications"))
+
+
+    res.status(200).json(new ApiResponse(200, application, "sucessfuly fethched Applications"))
 
 })
 
@@ -138,9 +147,9 @@ const jobIdWithApplicationResponseByAdmin = asyncHandler(async (req, res) => {
 const giveResponseStatusByAdmin = asyncHandler(async (req, res) => {
     const applicationId = req.params.id
     const { status } = req.body
-    
+
     // console.log(status);
-    
+
 
     if (!status) {
         throw new ApiError(404, "plese give any status")

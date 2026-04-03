@@ -10,7 +10,7 @@ app.use(cors({
 }))
 
 app.use(express.json());
-app.use(express.urlencoded({extends:true}))
+app.use(express.urlencoded({extended: true }))
 app.use(express.static('public'))
 
 app.use(cookieParser())
@@ -22,6 +22,18 @@ import applicationRouter from "./routes/application.routes.js"
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/jobs",jobRouter)
 app.use("/api/v1/applications",applicationRouter)
+
+
+
+app.use((err, req, res, next) => {
+    console.log("Error middleware triggered:", err.message)
+
+    res.status(err.statusCode || 500).json({
+        success: false,
+        message: err.message || "Internal Server Error",
+        errors: err.errors || []
+    })
+})
 
 
 
